@@ -1,1 +1,1 @@
-# timemanager-bot
+# timemanager_bot
