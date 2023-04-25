@@ -1,4 +1,3 @@
-
 from aiogram import executor, Bot, types, Dispatcher
 from config import token
 from aiogram.types import (ReplyKeyboardRemove,
@@ -9,13 +8,18 @@ bot = Bot(token)
 dp = Dispatcher(bot)
 
 kb_start = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_start.add(KeyboardButton('Ежедневные цели')).add(KeyboardButton('Напоминания')).insert(KeyboardButton('Мусорка'))
+kb_start.add(KeyboardButton('Ежедневные задачи')).add(KeyboardButton('Напоминания')).insert(KeyboardButton('Мусорка'))
+
 kb_trash = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_trash.add(KeyboardButton('Новаяя задача')).insert(KeyboardButton('Удалить задачу'))
+kb_trash.add(KeyboardButton('Новаяя задача')).add(KeyboardButton('Удалить задачу')).insert(KeyboardButton('Назад'))
+
 kb_remind = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_remind.add(KeyboardButton('Список задач')).add(KeyboardButton('Новая задача')).insert(KeyboardButton('Мусорка'))
+kb_remind.add(KeyboardButton('Новая задача')).add(KeyboardButton('Удалить задачу')).add(KeyboardButton('Установить напоминание')).\
+          add(KeyboardButton('Переместить задачу')).insert(KeyboardButton('Назад'))
+
 kb_daily_tasks = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_daily_tasks.add(KeyboardButton('Новая задача')).add(KeyboardButton('Перенести задачу')).insert(KeyboardButton('Удалить задачу'))
+kb_daily_tasks.add(KeyboardButton('Новая задача')).add(KeyboardButton('Удалить задачу')).\
+               add(KeyboardButton('Переместить задачу')).insert(KeyboardButton('Назад'))
 
 
 async def weak_up(_):
@@ -53,6 +57,14 @@ async def daily_tasks(message: types.Message):
     await bot.send_message(chat_id=message.from_user.id,
                            text='Напишите задачу:',
                            reply_markup=kb_daily_tasks)
+
+
+@dp.message_handler(text=['Назад'])
+async def back(message: types.Message):
+    user_id = message.from_user.id,
+    await bot.send_message(chat_id=message.from_user.id,
+                           text='Напишите задачу:',
+                           reply_markup=kb_start)
 
 
 if __name__ == '__main__':
