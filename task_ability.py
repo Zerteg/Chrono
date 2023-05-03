@@ -1,6 +1,6 @@
 from timemanager_bot import *
 
-async def add_task(message: types.Message):
+async def add_tas(message: types.Message):
     user_id = message.from_user.id,
     await bot.send_message(chat_id=message.from_user.id,
                            text='Напишите задачу:',
